@@ -64,5 +64,4 @@ class HomeScreen extends StatelessWidget{
 
     return posters;
   }
-
 }
