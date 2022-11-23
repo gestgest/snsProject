@@ -13,21 +13,20 @@ class BottomBar extends StatelessWidget{
             Tab(
                 icon: Icon(
                   Icons.home,
-                  size: 23,
+                  size: 28,
                 ),
-                child: Text('홈', style: TextStyle(fontSize: 9))),
+                //child: Text('홈', style: TextStyle(fontSize: 9))
+            ),
             Tab(
                 icon: Icon(
                   Icons.add_circle,
-                  size: 23,
+                  size: 28,
                 ),
-                child: Text('게시물 등록', style: TextStyle(fontSize: 9))),
+                //child: Text('게시물 등록', style: TextStyle(fontSize: 9))
+            ),
             Tab(
-                icon: Icon(
-                  Icons.account_circle,
-                  size: 23,
-                ),
-                child: Text('마이페이지', style: TextStyle(fontSize: 9))),
+                icon: Icon(Icons.account_circle,size: 28,),
+            ),
           ],
           labelColor: Color(0xFF957DAD),
           unselectedLabelColor:
