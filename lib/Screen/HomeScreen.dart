@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:snsproject/Widget/StoryWidget.dart';
+import 'package:snsproject/Widget/postWidget.dart';
 
-class HomeScreen extends StatelessWidget{
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar : AppBar(
-          title: Text("스토리"),
+      appBar: AppBar(
+        title: Container(
+          child: Column(
+            children: [
+              Text("title"),
+            ],
+          )
+        ),
       ),
-      body : Center(
-        child: ListView(
-          children: _listPoster(10),
-
-        )
+      body: ListView(
+          children: [
+            _storyList(),
+            _listPoster(),
+          ],
       ),
-
-
     );
 
     //스토리
@@ -23,45 +30,34 @@ class HomeScreen extends StatelessWidget{
     // - 사진 / 좋아요, 댓글
   }
 
-  List<Widget> _listPoster(int index){
-    List<Widget> posters = [];
-    //더미 게시물
-    for(int i = 0; i < index; i++)
-    {
-      posters.add(
-          Container(
-            child: Column(
-                children : [
-                  Text("닉네임"),
-                  Image.asset('res/img/image.jpg'),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.favorite_border_rounded,
-                          color: Colors.black,
-                        ),
-                        onPressed: (){},
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.chat_bubble_outline_rounded,
-                          color: Colors.black,
-                        ),
-                        onPressed: (){},
-                      ),
-                    ],
-                  ),
-                  SizedBox(height : 50),
-                ],
-                //mainAxisAlignment : MainAxisAlignment.start
-                crossAxisAlignment : CrossAxisAlignment.start
-            ),
-          )
-      );
-    }
+  //스토리
+  Widget _storyList()
+  {
+    //고정됐는데 움직이는 스크롤 뷰
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: List.generate(
+            20,
+            (index) =>  Container(
+              width: 60,
+              height: 60,
+              decoration:
+              BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey
+              ),
+            )
 
 
-    return posters;
+        ),
+      ),
+    );
+  }
+
+  Widget _listPoster( ){
+    return Column(
+      children: List.generate(20, (index) => PostWidget()),
+    );
   }
 }
