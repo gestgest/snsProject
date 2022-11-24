@@ -30,12 +30,13 @@ class StoryWidget extends StatelessWidget{
 
   Widget newWidget(){
     return Container(
-      width: 65,
-      height: 65,
+      width: 55,
+      height: 55,
+      margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         //컬러 인스타마냥 섞는?
         gradient: LinearGradient(
-          begin: Alignment.topRight,
+          begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
             Colors.purple,

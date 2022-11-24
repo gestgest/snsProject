@@ -10,7 +10,9 @@ class PostWidget extends StatelessWidget{
     return Container(
       child: Column(
         children: [
+          SizedBox(height: 25),
           _header(),
+          SizedBox(height: 25),
           _image(),
           Row(
             children: [
@@ -39,7 +41,7 @@ class PostWidget extends StatelessWidget{
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("닉네임"),
+        Text("닉네임", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
       ],
     );
   }

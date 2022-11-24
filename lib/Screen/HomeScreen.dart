@@ -37,19 +37,10 @@ class HomeScreen extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
+
         children: List.generate(
             20,
-            (index) =>  Container(
-              width: 60,
-              height: 60,
-              decoration:
-              BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey
-              ),
-            )
-
-
+            (index) =>  StoryWidget(type: StoryType.NEW)
         ),
       ),
     );
