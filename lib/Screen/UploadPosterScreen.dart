@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:snsproject/Screen/HomeScreen.dart';
 import 'package:snsproject/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 //final Future<XFile?> image = _picker.pickImage(source: ImageSource.gallery);
@@ -33,37 +32,47 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
     }
   }
 
-  List<Widget> _boxContents = [
-    IconButton(
-        onPressed: () {
-          _pickImg();
-        },
-        icon: Container(
-            alignment: Alignment.center,
+  List<Widget> _boxContents(){
+    List<Widget> list = [
+      IconButton(
+          onPressed: () {
+            _pickImg();
+          },
+          icon: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.6), shape: BoxShape.circle),
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.transparent,
+              )
+          )
+      ),
+      Container(),
+      Container(),
+      _pickedImgs.length <= 4
+          ? Container()
+          : FittedBox(
+        child: Container(
+            padding: EdgeInsets.all(6),
             decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.6), shape: BoxShape.circle),
-            child: Icon(
-              Icons.camera_alt,
-              color: Colors.transparent,
-            ))),
-    Container(),
-    Container(),
-    _pickedImgs.length <= 4
-        ? Container()
-        : FittedBox(
-            child: Container(
-                padding: EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.6),
-                    shape: BoxShape.circle),
-                child: Text(
-                  '+${(_pickedImgs.length - 4).toString()}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2
-                      ?.copyWith(fontWeight: FontWeight.w800),
-                ))),
-  ];
+                color: Colors.white.withOpacity(0.6),
+                shape: BoxShape.circle),
+            child: Text(
+              '+${(_pickedImgs.length - 4).toString()}',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle2
+                  ?.copyWith(fontWeight: FontWeight.w800),
+            )
+        ),
+
+      ),
+
+    ];
+
+    return list;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,12 +100,14 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
               crossAxisSpacing: 5,
               children: List.generate(
                   4,
-                  (index) => DottedBorder(
+                      (index) => DottedBorder(
                       child: Container(),
                       color: Colors.grey,
                       dashPattern: [5, 3],
                       borderType: BorderType.RRect,
                       radius: Radius.circular(10))).toList(),
-            )));
+            )
+        )
+    );
   }
 }
