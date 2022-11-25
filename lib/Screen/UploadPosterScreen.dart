@@ -69,6 +69,7 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
     }
   };*/
 
+
   @override
   Widget build(BuildContext context) {
     bool isPadMode = MediaQuery.of(context).size.width > 700;
