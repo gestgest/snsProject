@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image_picker/image_picker.dart';
 
+//업로드 포스터
 class UploadPosterScreen extends StatelessWidget {
   //final ImagePicker picker = ImagePicker();
   //PickedFile? pick_image;
