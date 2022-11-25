@@ -69,6 +69,43 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
     }
   };*/
 
+  List<Widget> _boxContents() {
+    List<Widget> list = [
+      IconButton(
+          onPressed: () {
+            _pickImg();
+          },
+          icon: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.6), shape: BoxShape.circle),
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.transparent,
+              ))),
+      Container(),
+      Container(),
+      _pickedImgs.length <= 4
+          ? Container()
+          : FittedBox(
+              child: Container(
+                  padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.6),
+                      shape: BoxShape.circle),
+                  child: Text(
+                    '+${(_pickedImgs.length - 4).toString()}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        ?.copyWith(fontWeight: FontWeight.w800),
+                  )),
+            ),
+    ];
+
+    return list;
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isPadMode = MediaQuery.of(context).size.width > 700;
