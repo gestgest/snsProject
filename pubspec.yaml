@@ -32,12 +32,9 @@ dependencies:
   http:
   image_picker:
   video_player:
-  shared_preferences:
   multi_image_picker:
   dotted_border:
   dio:
-  firebase_auth:
-  provider:
 
 
 
