@@ -69,6 +69,11 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
     }
   };*/
 
+//업로드 포스터
+class UploadPosterScreen extends StatelessWidget {
+  //final ImagePicker picker = ImagePicker();
+  //PickedFile? pick_image;
+  //pick_image == null ? Text('No image') : Image.file(File(pick_image.path))
   @override
   Widget build(BuildContext context) {
     bool isPadMode = MediaQuery.of(context).size.width > 700;

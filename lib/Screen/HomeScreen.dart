@@ -1,33 +1,68 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:snsproject/Service/PosterService.dart';
 import 'package:snsproject/Widget/StoryWidget.dart';
 import 'package:snsproject/Widget/postWidget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Container(
-          child: Column(
+    return Consumer<PosterService>(builder: (context, posterService, child) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Container(
+              child: Column(
             children: [
               Text("title"),
             ],
-          )
+          )),
         ),
-      ),
-      body: ListView(
-          children: [
-            _storyList(),
-            _listPoster(),
-          ],
-      ),
-    );
+        body: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            physics: ScrollPhysics(),
+            child: Column(
+            children: [
+              _storyList(),
+              FutureBuilder(
+                  future: posterService.read(), //Future <T>
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    List<NetworkImage> list = [];
+                    if (snapshot.connectionState == ConnectionState.done &&
+                        snapshot.hasData) {
+                      return Container(
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.size,
 
-    //스토리
-    //body
-    // - 사진 / 좋아요, 댓글
+                            //snapshot 데베 for문
+                            itemBuilder: (BuildContext context, int index) {
+                              return PostWidget(data: snapshot.data!.docs[index]);
+                              //return placeList(snapshot.data!);
+                            }),
+                      );
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting ||
+                        !snapshot.hasData) {
+                      return CircularProgressIndicator(); //버퍼링
+                    }
+                    return Container();
+              }),
+          ],
+        )),
+      );
+      //스토리
+      //body
+      // - 사진 / 좋아요, 댓글
+    });
   }
 
   //스토리
@@ -37,27 +72,13 @@ class HomeScreen extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
+
         children: List.generate(
             20,
-            (index) =>  Container(
-              width: 60,
-              height: 60,
-              decoration:
-              BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey
-              ),
-            )
-
-
+            (index) =>  StoryWidget(type: StoryType.NEW)
         ),
       ),
     );
   }
 
-  Widget _listPoster( ){
-    return Column(
-      children: List.generate(20, (index) => PostWidget()),
-    );
-  }
 }
