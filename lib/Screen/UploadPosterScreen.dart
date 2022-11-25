@@ -11,6 +11,7 @@ import 'package:snsproject/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 //final Future<XFile?> image = _picker.pickImage(source: ImageSource.gallery);
 //final Future<List<XFile>?> images = _picker.pickMultiImage();
 
@@ -32,26 +33,42 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
     }
   }
 
+  List<Widget> _boxContents = [
+    IconButton(
+        onPressed: () {
+          _pickImg();
+        },
+        icon: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.6), shape: BoxShape.circle),
+            child: Icon(
+              Icons.camera_alt,
+              color: Colors.transparent,
+            ))),
+    Container(),
+    Container(),
+    _pickedImgs.length <= 4
+        ? Container()
+        : FittedBox(
+            child: Container(
+                padding: EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.6),
+                    shape: BoxShape.circle),
+                child: Text(
+                  '+${(_pickedImgs.length - 4).toString()}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2
+                      ?.copyWith(fontWeight: FontWeight.w800),
+                ))),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: 350,
-        child: GridView.count(
-          padding: EdgeInsets.all(2),
-          crossAxisCount: 2,
-          mainAxisSpacing: 5,
-          crossAxisSpacing: 5,
-          children: List.generate(
-              4,
-              (index) => DottedBorder(
-                  child: Container(),
-                  color: Colors.grey,
-                  dashPattern: [5, 3],
-                  borderType: BorderType.RRect,
-                  radius: Radius.circular(10))).toList(),
-        ));
-  }
-  /*appBar: AppBar(
+    return Scaffold(
+        appBar: AppBar(
             title: const Text("새 게시물"),
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
@@ -65,39 +82,21 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
                 },
               ),
             ]),
-        body: Column(
-          children: <Widget>[
-            images.
-                ? Container()
-                : Container(
-                    height: 300,
-                    width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        Asset asset = images[index];
-                        return AssetThumb(
-                            asset: asset, width: 300, height: 300);
-                      },
-                    ))
-          ],
-        )
-        /*Flexible(
-            fit: FlexFit.tight,
-            child: Container(
-              width: 1000,
-              child: Text("갤러리"),
-              color: Colors.red,
-            ),
-          ),
-        );*/*/
-
-  /*getImage() async {
-    List<Asset> resultList =List.generate(9,((index) => );
-    resultList =
-        await MultiImagePicker.pickImages(maxImages: 10, enableCamera: true);
-    setState(() {
-      images = resultList;
-    });
-  }*/
+        body: SizedBox(
+            height: 513,
+            child: GridView.count(
+              padding: EdgeInsets.all(2),
+              crossAxisCount: 3,
+              mainAxisSpacing: 5,
+              crossAxisSpacing: 5,
+              children: List.generate(
+                  4,
+                  (index) => DottedBorder(
+                      child: Container(),
+                      color: Colors.grey,
+                      dashPattern: [5, 3],
+                      borderType: BorderType.RRect,
+                      radius: Radius.circular(10))).toList(),
+            )));
+  }
 }
