@@ -35,7 +35,10 @@ dependencies:
   shared_preferences:
   multi_image_picker:
   dotted_border:
-  cupertino_icons:
+  dio:
+  firebase_auth:
+  provider:
+
 
 
   # The following adds the Cupertino Icons font to your application.
