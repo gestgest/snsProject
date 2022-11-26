@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snsproject/Service/PosterService.dart';
+import 'package:snsproject/Service/UserService.dart';
 import 'package:snsproject/Widget/StoryWidget.dart';
 import 'package:snsproject/Widget/postWidget.dart';
+
+import '../Model/Poster.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -39,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Container(
                         child: ListView.builder(
                             scrollDirection: Axis.vertical,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: snapshot.data!.size,
 
@@ -59,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         )),
       );
-      //스토리
       //body
       // - 사진 / 좋아요, 댓글
     });
