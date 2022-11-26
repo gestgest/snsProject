@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:snsproject/Screen/UploadPosterScreen.dart';
+import 'Screen/DebugWidget.dart';
 import 'Screen/HomeScreen.dart';
 import 'Screen/MyPageScreen.dart';
 import 'package:provider/provider.dart';
 import 'Service/PosterService.dart';
+import 'Service/UserService.dart';
 import 'Widget/BottomBar.dart';
 
 void main() async{
@@ -14,6 +16,7 @@ void main() async{
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => PosterService()),
+        ChangeNotifierProvider(create: (context) => UserService()),
       ],
       child: const MyApp(),
     ),
@@ -76,7 +79,8 @@ class _HomePageState extends State<HomePage> {
               HomeScreen(),
               //favoriteScreen(),
               UploadPosterScreen(),
-              MyPageScreen(),
+              DebugWidget(), //디버그
+              //MyPageScreen(),
               //etcScreen(),
             ],
           ),
