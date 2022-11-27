@@ -4,7 +4,7 @@ class Poster{
   final String? title;
   final String? uid;
   final String? thumbnail;
-  User? user;
+  MyUser? user;
   Poster({
     this.title,
     this.uid,
@@ -17,7 +17,7 @@ class Poster{
       uid: json['uid'] == null ? '' : json['uid'] as String,
       title: json['title'] == null ? '' : json['title'] as String,
       thumbnail: json['thumbnail'] == null ? '' : json['thumbnail'] as String,
-      user: json['user'] == null ? null : json['user'] as User,
+      user: json['user'] == null ? null : json['user'] as MyUser,
     );
   }
   Map<String, dynamic> toMap(){

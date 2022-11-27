@@ -37,7 +37,7 @@ class _DebugWidgetState extends State<DebugWidget> {
                 FutureBuilder(
                     future: userService.readUser("gest"), //Future <T>
                     builder: (BuildContext context,
-                        AsyncSnapshot<User> snapshot) {
+                        AsyncSnapshot<MyUser> snapshot) {
                       List<NetworkImage> list = [];
                       if (snapshot.connectionState == ConnectionState.done &&
                           snapshot.hasData) {
@@ -57,7 +57,7 @@ class _DebugWidgetState extends State<DebugWidget> {
                                 child: Text("vv"),
                                 onPressed: () {
 
-                                  userService.create( User(name : "ppap", uid: "tetet", profile: ss));
+                                  userService.create( MyUser(name : "ppap", uid: "tetet", profile: ss));
                                 },
                               ),
                               ElevatedButton(

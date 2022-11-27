@@ -20,7 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void update() => setState(() {});
 
-  Widget _avatar() {
+  Widget avatar() {
     return Column(
       children: [
         ClipRRect(
@@ -77,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 30),
-            _avatar(),
+            avatar(),
           ],
         ),
       ),

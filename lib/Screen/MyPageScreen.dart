@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:snsproject/Service/UserService.dart';
 
@@ -11,6 +14,7 @@ class MyPageScreen extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPageScreen> {
+
   //오른쪽 위에 Appbar에 햄버거 버튼 = 블로그 메뉴 마냥 햄버거 버튼
   //그 왼쪽에는 설정
   //왼쪽 위 앱바에 친구 아이콘
@@ -24,6 +28,7 @@ class _MyPageState extends State<MyPageScreen> {
     //왼쪽 위 앱바에 친구 아이콘
     //메인은 프로필 사진[버튼 누르면 프사 변경] + 구분선 + 그냥 자기 게시물
     //
+    //FirebaseAuth.instance.currentUser
     return Container(
         child : Scaffold(
             appBar: AppBar(
@@ -40,6 +45,7 @@ class _MyPageState extends State<MyPageScreen> {
                     ),
                     SizedBox(height:20),
                     Text("닉네임"),
+                    SignOutButton(),
                   ],
                 )
               ],

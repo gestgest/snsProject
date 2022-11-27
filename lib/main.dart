@@ -3,12 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:flutterfire_ui/i10n.dart';
+import 'package:snsproject/Screen/SignUpScreen.dart';
 import 'package:snsproject/Screen/UploadPosterScreen.dart';
 import 'Screen/DebugWidget.dart';
 import 'Screen/HomeScreen.dart';
 import 'Screen/MyPageScreen.dart';
 import 'package:provider/provider.dart';
-import 'Screen/labelOverrides.dart';
+import 'labelOverrides.dart';
 import 'Service/PosterService.dart';
 import 'Service/StoryService.dart';
 import 'Service/UserService.dart';
@@ -20,6 +21,7 @@ void main() async{
   runApp(
     MultiProvider(
       providers: [
+        //ChangeNotifier
         ChangeNotifierProvider(create: (context) => PosterService()),
         ChangeNotifierProvider(create: (context) => UserService()),
         ChangeNotifierProvider(create: (context) => StoryService()),
@@ -91,6 +93,7 @@ class Authentication extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
@@ -98,7 +101,7 @@ class Authentication extends StatelessWidget {
           return SignInScreen(
             headerBuilder: (context, constraints, double) {
               return Padding(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.all(10),
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: CircleAvatar(backgroundImage: AssetImage('res/img/doggy.gif'), radius: 100.0,),
@@ -106,13 +109,20 @@ class Authentication extends StatelessWidget {
               );
             },
             providerConfigs: [EmailProviderConfiguration()],
+            actions: [
+
+            ],
           );
         }
-        return HomePage();
+        final dd = snapshot.data;
+        User user = dd as User;
+        print("잉    " + user.uid);
+        return SignUpScreen();
       },
     );
   }
 }
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

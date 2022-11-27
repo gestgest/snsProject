@@ -11,7 +11,7 @@ class StoryWidget extends StatelessWidget{
   //시청 여부
   StoryType type;
   final String? image;
-  final User user;
+  final MyUser user;
   StoryWidget({
     Key? key,
     required this.type,
