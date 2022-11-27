@@ -1,67 +1,123 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:snsproject/Model/Story.dart';
+import 'package:snsproject/Service/PosterService.dart';
+import 'package:snsproject/Service/UserService.dart';
+import 'package:snsproject/Widget/StoryWidget.dart';
+import 'package:snsproject/Widget/postWidget.dart';
 
-class HomeScreen extends StatelessWidget{
+import '../Model/Poster.dart';
+import '../Service/StoryService.dart';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar : AppBar(
-          title: Text("스토리"),
-      ),
-      body : Center(
-        child: ListView(
-          children: _listPoster(10),
-
-        )
-      ),
-
-
-    );
-
-    //스토리
-    //body
-    // - 사진 / 좋아요, 댓글
-  }
-
-  List<Widget> _listPoster(int index){
-    List<Widget> posters = [];
-    //더미 게시물
-    for(int i = 0; i < index; i++)
-    {
-      posters.add(
-          Container(
+    return Consumer<PosterService>(builder: (context, posterService, child) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Container(
+              child: Column(
+            children: [
+              Text("title"),
+            ],
+          )),
+        ),
+        body: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            physics: ScrollPhysics(),
             child: Column(
-                children : [
-                  Text("닉네임"),
-                  Image.asset('res/img/image.jpg'),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.favorite_border_rounded,
-                          color: Colors.black,
-                        ),
-                        onPressed: (){},
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.chat_bubble_outline_rounded,
-                          color: Colors.black,
-                        ),
-                        onPressed: (){},
-                      ),
-                    ],
-                  ),
-                  SizedBox(height : 50),
-                ],
-                //mainAxisAlignment : MainAxisAlignment.start
-                crossAxisAlignment : CrossAxisAlignment.start
-            ),
-          )
+            children: [
+              _storyList(),
+              FutureBuilder(
+                  future: posterService.read(), //Future <T>
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    List<NetworkImage> list = [];
+                    if (snapshot.connectionState == ConnectionState.done &&
+                        snapshot.hasData) {
+                      return Container(
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.size,
+
+                            //snapshot 데베 for문
+                            itemBuilder: (BuildContext context, int index) {
+                              return PostWidget(data: snapshot.data!.docs[index]);
+                              //return placeList(snapshot.data!);
+                            }),
+                      );
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting ||
+                        !snapshot.hasData) {
+                      return CircularProgressIndicator(); //버퍼링
+                    }
+                    return Container();
+              }),
+          ],
+        )),
       );
-    }
-
-
-    return posters;
+      //body
+      // - 사진 / 좋아요, 댓글
+    });
   }
+
+  //스토리
+  Widget _storyList()
+  {
+    return Consumer<StoryService>(builder: (context, storyService, child) {
+      return Container(
+        child: FutureBuilder(
+            future: storyService.read(), //Future <T>
+            builder: (BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshot) {
+              List<NetworkImage> list = [];
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
+                return Container(
+                  child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.size,
+                      //snapshot 데베 for문
+                      itemBuilder: (BuildContext context, int index) {
+                        //data: snapshot.data!.docs[index]
+                        var mydata = snapshot.data!.docs[index];
+
+
+                        return StoryWidget(type : StoryType.NEW);
+                        //return placeList(snapshot.data!);
+                      }),
+                );
+              }
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  !snapshot.hasData) {
+                return CircularProgressIndicator(); //버퍼링
+              }
+              return Container();
+            }),
+      );
+    });
+
+    //고정됐는데 움직이는 스크롤 뷰
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+
+        children: List.generate(
+            20,
+            (index) =>  StoryWidget(type: StoryType.NEW)
+        ),
+      ),
+    );
+  }
+
 }

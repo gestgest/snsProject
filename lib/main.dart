@@ -1,8 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:snsproject/Screen/UploadPosterScreen.dart';
+import 'Screen/DebugWidget.dart';
 import 'Screen/HomeScreen.dart';
 import 'Screen/MyPageScreen.dart';
 import 'Screen/ProfileScreen.dart';
+import 'package:provider/provider.dart';
+import 'Service/PosterService.dart';
+import 'Service/StoryService.dart';
+import 'Service/UserService.dart';
 import 'Widget/BottomBar.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:flutterfire_ui/i10n.dart';
@@ -10,10 +16,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Screen/labelOverrides.dart';
 
-void main() async {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => PosterService()),
+        ChangeNotifierProvider(create: (context) => UserService()),
+        ChangeNotifierProvider(create: (context) => StoryService()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -120,6 +135,7 @@ class _HomePageState extends State<HomePage> {
               HomeScreen(),
               //favoriteScreen(),
               UploadPosterScreen(),
+              //DebugWidget(), //디버그
               MyPageScreen(),
               //etcScreen(),
             ],
