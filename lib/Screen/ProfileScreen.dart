@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,7 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void update() => setState(() {});
 
-  Widget _avatar(){
+  Widget _avatar() {
     return Column(
       children: [
         ClipRRect(
@@ -27,25 +28,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: SizedBox(
             width: 350,
             height: 350,
-            child: thumbnailXfild!=null
+            child: thumbnailXfild != null
                 ? Image.file(
-                File(thumbnailXfild!.path),
-                fit: BoxFit.cover,
+              File(thumbnailXfild!.path),
+              fit: BoxFit.cover,
             )
-            : Image.asset('res/img/image2.jpg',
+                : Image.asset('res/img/image2.jpg',
                 fit: BoxFit.cover),
           ),
         ),
         const SizedBox(height: 30),
-        ElevatedButton(onPressed: () async{
+        ElevatedButton(onPressed: () async {
           thumbnailXfild = await _picker.pickImage(
-              source: ImageSource.gallery,imageQuality: 100);
+              source: ImageSource.gallery, imageQuality: 100);
           update();
-          }, child: Text('이미지 업로드'),
+        }, child: Text('이미지 업로드'),
         ),
         const SizedBox(height: 30),
-        ElevatedButton(onPressed: (){},  // 확인 누를 시 회원가입 입력 정보, 프로필 정보 받아가기
-            child: Text('확인'),
+        ElevatedButton(onPressed: () {}, // 확인 누를 시 회원가입 입력 정보, 프로필 정보 받아가기
+          child: Text('확인'),
         ),
       ],
     );
@@ -81,5 +82,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+
   }
 }

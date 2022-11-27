@@ -1,20 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/auth.dart';
+import 'package:flutterfire_ui/i10n.dart';
 import 'package:snsproject/Screen/UploadPosterScreen.dart';
 import 'Screen/DebugWidget.dart';
 import 'Screen/HomeScreen.dart';
 import 'Screen/MyPageScreen.dart';
-import 'Screen/ProfileScreen.dart';
 import 'package:provider/provider.dart';
+import 'Screen/labelOverrides.dart';
 import 'Service/PosterService.dart';
 import 'Service/StoryService.dart';
 import 'Service/UserService.dart';
 import 'Widget/BottomBar.dart';
-import 'package:flutterfire_ui/auth.dart';
-import 'package:flutterfire_ui/i10n.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'Screen/labelOverrides.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +41,8 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         FlutterFireUILocalizations.delegate,
       ],
+      debugShowCheckedModeBanner: false,
+      title: 'Sns Project',
       theme: ThemeData(
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
@@ -58,12 +58,22 @@ class MyApp extends StatelessWidget {
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
           ),
         ),
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
+        primarySwatch: Colors.cyan,
       ),
-      debugShowCheckedModeBanner: false,
       home: MyPage(),
     );
   }
 }
+
 
 class MyPage extends StatelessWidget {
   const MyPage({Key? key}) : super(key: key);
@@ -98,7 +108,7 @@ class Authentication extends StatelessWidget {
             providerConfigs: [EmailProviderConfiguration()],
           );
         }
-        return HomeScreen();
+        return HomePage();
       },
     );
   }
