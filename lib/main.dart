@@ -1,20 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/auth.dart';
+import 'package:flutterfire_ui/i10n.dart';
+import 'package:snsproject/Screen/SignUpScreen.dart';
 import 'package:snsproject/Screen/UploadPosterScreen.dart';
 import 'Screen/DebugWidget.dart';
 import 'Screen/HomeScreen.dart';
 import 'Screen/MyPageScreen.dart';
-import 'Screen/ProfileScreen.dart';
 import 'package:provider/provider.dart';
+import 'labelOverrides.dart';
 import 'Service/PosterService.dart';
 import 'Service/StoryService.dart';
 import 'Service/UserService.dart';
 import 'Widget/BottomBar.dart';
-import 'package:flutterfire_ui/auth.dart';
-import 'package:flutterfire_ui/i10n.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'Screen/labelOverrides.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +21,7 @@ void main() async{
   runApp(
     MultiProvider(
       providers: [
+        //ChangeNotifier
         ChangeNotifierProvider(create: (context) => PosterService()),
         ChangeNotifierProvider(create: (context) => UserService()),
         ChangeNotifierProvider(create: (context) => StoryService()),
@@ -43,6 +43,8 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         FlutterFireUILocalizations.delegate,
       ],
+      debugShowCheckedModeBanner: false,
+      title: 'Sns Project',
       theme: ThemeData(
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
@@ -58,12 +60,22 @@ class MyApp extends StatelessWidget {
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
           ),
         ),
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
+        primarySwatch: Colors.cyan,
       ),
-      debugShowCheckedModeBanner: false,
       home: MyPage(),
     );
   }
 }
+
 
 class MyPage extends StatelessWidget {
   const MyPage({Key? key}) : super(key: key);
@@ -81,6 +93,7 @@ class Authentication extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
@@ -88,7 +101,7 @@ class Authentication extends StatelessWidget {
           return SignInScreen(
             headerBuilder: (context, constraints, double) {
               return Padding(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.all(10),
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: CircleAvatar(backgroundImage: AssetImage('res/img/doggy.gif'), radius: 100.0,),
@@ -96,13 +109,20 @@ class Authentication extends StatelessWidget {
               );
             },
             providerConfigs: [EmailProviderConfiguration()],
+            actions: [
+
+            ],
           );
         }
-        return HomeScreen();
+        final dd = snapshot.data;
+        User user = dd as User;
+        print("잉    " + user.uid);
+        return SignUpScreen();
       },
     );
   }
 }
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

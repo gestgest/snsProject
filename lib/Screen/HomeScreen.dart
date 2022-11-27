@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     String name = data['user']['name'];
                     String profile = data['user']['profile'];
                     String uid = data['user']['uid'];
-                    final user = User(name : name, profile: profile, uid: uid);
+                    final user = MyUser(name : name, profile: profile, uid: uid);
                     return StoryWidget(
                       type: StoryType.NEW,
                       image: data['image'],

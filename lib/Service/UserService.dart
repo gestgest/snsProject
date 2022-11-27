@@ -15,10 +15,18 @@ class UserService extends ChangeNotifier {
     //무조건 then쓰지말고 await
     throw UnimplementedError(); // return 값 미구현 에러
   }
-  Future<User> readUser(String name) async {
+  Future<MyUser> readUser(String name) async {
     //poster 목록 가져오기
     final data = await UserCollection.where('name', isEqualTo: name).get();
-    User user = User.fromJson(data.docs.first.data());
+    MyUser user = MyUser.fromJson(data.docs.first.data());
+    return user;
+    //무조건 then쓰지말고 await
+    throw UnimplementedError(); // return 값 미구현 에러
+  }
+  Future<MyUser> readUid(String uid) async {
+    //poster 목록 가져오기
+    final data = await UserCollection.where('uid', isEqualTo: uid).get();
+    MyUser user = MyUser.fromJson(data.docs.first.data());
     return user;
     //무조건 then쓰지말고 await
     throw UnimplementedError(); // return 값 미구현 에러
@@ -40,7 +48,7 @@ class UserService extends ChangeNotifier {
   }
   */
   //맵 버전
-  void create(User user) async
+  void create(MyUser user) async
   {
     await UserCollection.add(user.toMap());
   }

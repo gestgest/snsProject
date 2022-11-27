@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'custom_text_form_field.dart';
+import '../Widget/custom_text_form_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
