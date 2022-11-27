@@ -25,7 +25,7 @@ class UserService extends ChangeNotifier {
   }
 
 
-  //title : 닉네임, uid : 유저id, thumbnail : 프로필 사진 주소
+  /*  //title : 닉네임, uid : 유저id, thumbnail : 프로필 사진 주소
   void create(String name, String uid, String profile) async {
     //, String keyword, double starScore, int busy
     // place 만들기
@@ -38,8 +38,9 @@ class UserService extends ChangeNotifier {
     );
     notifyListeners(); // 화면 갱신
   }
+  */
   //맵 버전
-  void createUser(User user) async
+  void create(User user) async
   {
     await UserCollection.add(user.toMap());
   }

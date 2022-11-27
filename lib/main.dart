@@ -6,6 +6,7 @@ import 'Screen/HomeScreen.dart';
 import 'Screen/MyPageScreen.dart';
 import 'package:provider/provider.dart';
 import 'Service/PosterService.dart';
+import 'Service/StoryService.dart';
 import 'Service/UserService.dart';
 import 'Widget/BottomBar.dart';
 
@@ -17,6 +18,7 @@ void main() async{
       providers: [
         ChangeNotifierProvider(create: (context) => PosterService()),
         ChangeNotifierProvider(create: (context) => UserService()),
+        ChangeNotifierProvider(create: (context) => StoryService()),
       ],
       child: const MyApp(),
     ),
@@ -79,8 +81,8 @@ class _HomePageState extends State<HomePage> {
               HomeScreen(),
               //favoriteScreen(),
               UploadPosterScreen(),
-              DebugWidget(), //디버그
-              //MyPageScreen(),
+              //DebugWidget(), //디버그
+              MyPageScreen(),
               //etcScreen(),
             ],
           ),

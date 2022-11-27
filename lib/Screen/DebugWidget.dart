@@ -51,9 +51,17 @@ class _DebugWidgetState extends State<DebugWidget> {
                                 },
                               ),
                               ElevatedButton(
+                                child: Text("vv"),
+                                onPressed: () {
+                                  String ss = "https://firebasestorage.googleapis.com/v0/b/snsprojectfb.appspot.com/o/poster%2F8ovh47lzzTViQspJde0Q%2Fthumbnail%2Fimage.jpg?alt=media&token=6441819d-2a13-4832-98e9-fb83fbff7ab0";
+                                  userService.create( User(name : "ppap", uid: "tetet", profile: ss));
+                                },
+                              ),
+                              ElevatedButton(
                                 child: Text("cc"),
                                 onPressed: () {
-                                  posterService.deleteName("펭귄");
+                                  print(snapshot.data!.name);
+                                  posterService.deleteName("레고고고");
                                 },
                               )
                               

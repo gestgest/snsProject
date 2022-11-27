@@ -1,7 +1,8 @@
+
 class User{
-  String? name;
-  String? uid;
-  String? profile;
+  final String? name;
+  final String? uid;
+  final String? profile;
   User({
     this.name,
     this.uid,
