@@ -1,9 +1,9 @@
 import 'User.dart';
 
 class Poster{
-  String? title;
-  String? uid;
-  String? thumbnail;
+  final String? title;
+  final String? uid;
+  final String? thumbnail;
   User? user;
   Poster({
     this.title,

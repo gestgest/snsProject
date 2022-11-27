@@ -14,9 +14,9 @@ class PostWidget extends StatelessWidget{
       child: Column(
         children: [
           SizedBox(height: 25),
-          _header(),
-          SizedBox(height: 25),
           _image(),
+          SizedBox(height: 15),
+          _header(),
           Row(
             children: [
               IconButton(
@@ -42,11 +42,12 @@ class PostWidget extends StatelessWidget{
 
   Widget _header(){
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        SizedBox(width: 10,),
         //제목
-        Text(data['title'], style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-        //설정 버튼
+        Text(data['title'], style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+        //설명?
+        //설정
       ],
     );
   }
