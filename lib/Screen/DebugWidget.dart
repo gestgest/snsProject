@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snsproject/Service/PosterService.dart';
+import 'package:snsproject/Service/StoryService.dart';
 import 'package:snsproject/Service/UserService.dart';
 import 'package:snsproject/Widget/StoryWidget.dart';
 import 'package:snsproject/Widget/postWidget.dart';
 
 import '../Model/Poster.dart';
+import '../Model/Story.dart';
 import '../Model/User.dart';
 
 class DebugWidget extends StatefulWidget {
@@ -17,7 +19,7 @@ class DebugWidget extends StatefulWidget {
 class _DebugWidgetState extends State<DebugWidget> {
   @override
   Widget build(BuildContext context) {
-    return Consumer2<PosterService,UserService>(builder: (context, posterService,userService, child) {
+    return Consumer3<PosterService,UserService, StoryService>(builder: (context, posterService,userService,storyService, child) {
       return Scaffold(
         appBar: AppBar(
           title: Container(
@@ -33,12 +35,13 @@ class _DebugWidgetState extends State<DebugWidget> {
             child: Column(
               children: [
                 FutureBuilder(
-                    future: userService.readUser(), //Future <T>
+                    future: userService.readUser("gest"), //Future <T>
                     builder: (BuildContext context,
                         AsyncSnapshot<User> snapshot) {
                       List<NetworkImage> list = [];
                       if (snapshot.connectionState == ConnectionState.done &&
                           snapshot.hasData) {
+                        String ss = "https://firebasestorage.googleapis.com/v0/b/snsprojectfb.appspot.com/o/poster%2F8ovh47lzzTViQspJde0Q%2Fthumbnail%2Fimage.jpg?alt=media&token=6441819d-2a13-4832-98e9-fb83fbff7ab0";
 
                         return Column(
                             children : [
@@ -53,7 +56,7 @@ class _DebugWidgetState extends State<DebugWidget> {
                               ElevatedButton(
                                 child: Text("vv"),
                                 onPressed: () {
-                                  String ss = "https://firebasestorage.googleapis.com/v0/b/snsprojectfb.appspot.com/o/poster%2F8ovh47lzzTViQspJde0Q%2Fthumbnail%2Fimage.jpg?alt=media&token=6441819d-2a13-4832-98e9-fb83fbff7ab0";
+
                                   userService.create( User(name : "ppap", uid: "tetet", profile: ss));
                                 },
                               ),
@@ -62,6 +65,16 @@ class _DebugWidgetState extends State<DebugWidget> {
                                 onPressed: () {
                                   print(snapshot.data!.name);
                                   posterService.deleteName("레고고고");
+                                },
+                              ),
+                              ElevatedButton(
+                                child: Text("storyadd"),
+                                onPressed: () {
+                                  DateTime time = DateTime.now();
+                                  Story story = Story(image : ss, user : snapshot.data, time : time);
+                                  storyService.create(story);
+
+                                  //posterService.deleteName("레고고고");
                                 },
                               )
                               

@@ -8,10 +8,12 @@ import 'package:snsproject/Widget/StoryWidget.dart';
 import 'package:snsproject/Widget/postWidget.dart';
 
 import '../Model/Poster.dart';
+import '../Model/User.dart';
 import '../Service/StoryService.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -28,41 +30,45 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           )),
         ),
-        body: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            physics: ScrollPhysics(),
-            child: Column(
-            children: [
-              _storyList(),
-              FutureBuilder(
-                  future: posterService.read(), //Future <T>
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    List<NetworkImage> list = [];
-                    if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.hasData) {
-                      return Container(
-                        child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.size,
+        body: Center(
+          //두개의 스크롤을 쓰기 위해서 위젯의 크기를 고정시켜야 한다.
+          child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              physics: ScrollPhysics(),
+              child: Column(
+                children: [
+                  Container(child: _storyList(), width: 400, height: 100,),
+                  FutureBuilder(
+                      future: posterService.read(), //Future <T>
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData) {
+                          return Container(
+                            child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: snapshot.data!.size,
 
-                            //snapshot 데베 for문
-                            itemBuilder: (BuildContext context, int index) {
-                              return PostWidget(data: snapshot.data!.docs[index]);
-                              //return placeList(snapshot.data!);
-                            }),
-                      );
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting ||
-                        !snapshot.hasData) {
-                      return CircularProgressIndicator(); //버퍼링
-                    }
-                    return Container();
-              }),
-          ],
-        )),
+                                //snapshot 데베 for문
+                                itemBuilder: (BuildContext context, int index) {
+                                  return PostWidget(
+                                      data: snapshot.data!.docs[index]);
+                                  //return placeList(snapshot.data!);
+                                }),
+                          );
+                        }
+                        if (snapshot.connectionState ==
+                                ConnectionState.waiting ||
+                            !snapshot.hasData) {
+                          return CircularProgressIndicator(); //버퍼링
+                        }
+                        return Container();
+                      }),
+                ],
+              )),
+        ),
       );
       //body
       // - 사진 / 좋아요, 댓글
@@ -70,54 +76,43 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   //스토리
-  Widget _storyList()
-  {
+  Widget _storyList() {
     return Consumer<StoryService>(builder: (context, storyService, child) {
-      return Container(
-        child: FutureBuilder(
-            future: storyService.read(), //Future <T>
-            builder: (BuildContext context,
-                AsyncSnapshot<QuerySnapshot> snapshot) {
-              List<NetworkImage> list = [];
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                return Container(
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.size,
-                      //snapshot 데베 for문
-                      itemBuilder: (BuildContext context, int index) {
-                        //data: snapshot.data!.docs[index]
-                        var mydata = snapshot.data!.docs[index];
+      return FutureBuilder(
+          future: storyService.read(), //Future <T>
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  physics: const ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.size,
+                  //snapshot 데베 for문
+                  itemBuilder: (BuildContext context, int index) {
+                    //data: snapshot.data!.docs[index]
+                    //var story = snapshot.data!.docs.map<Story>((e) => Story.fromJson(e.id, e.data()) );
 
-
-                        return StoryWidget(type : StoryType.NEW);
-                        //return placeList(snapshot.data!);
-                      }),
-                );
-              }
-              if (snapshot.connectionState == ConnectionState.waiting ||
-                  !snapshot.hasData) {
-                return CircularProgressIndicator(); //버퍼링
-              }
-              return Container();
-            }),
-      );
+                    var data = snapshot.data!.docs[index];
+                    String name = data['user']['name'];
+                    String profile = data['user']['profile'];
+                    String uid = data['user']['uid'];
+                    final user = User(name : name, profile: profile, uid: uid);
+                    return StoryWidget(
+                      type: StoryType.NEW,
+                      image: data['image'],
+                      user : user,
+                    );
+                    //return placeList(snapshot.data!);
+                  });
+            }
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                !snapshot.hasData) {
+              return CircularProgressIndicator(); //버퍼링
+            }
+            return Container();
+          });
     });
-
-    //고정됐는데 움직이는 스크롤 뷰
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-
-        children: List.generate(
-            20,
-            (index) =>  StoryWidget(type: StoryType.NEW)
-        ),
-      ),
-    );
   }
-
 }

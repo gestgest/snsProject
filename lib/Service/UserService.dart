@@ -15,9 +15,9 @@ class UserService extends ChangeNotifier {
     //무조건 then쓰지말고 await
     throw UnimplementedError(); // return 값 미구현 에러
   }
-  Future<User> readUser() async {
+  Future<User> readUser(String name) async {
     //poster 목록 가져오기
-    final data = await UserCollection.get();
+    final data = await UserCollection.where('name', isEqualTo: name).get();
     User user = User.fromJson(data.docs.first.data());
     return user;
     //무조건 then쓰지말고 await

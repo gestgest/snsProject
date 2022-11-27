@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../Model/User.dart';
+
 enum StoryType{
   NEW,
   OLD
@@ -8,12 +10,13 @@ enum StoryType{
 class StoryWidget extends StatelessWidget{
   //시청 여부
   StoryType type;
-  String? nickname;
-
+  final String? image;
+  final User user;
   StoryWidget({
     Key? key,
     required this.type,
-    this.nickname,
+    required this.image,
+    required this.user,
   }) : super (key : key);
 
   @override
@@ -30,9 +33,10 @@ class StoryWidget extends StatelessWidget{
 
   Widget newWidget(){
     return Container(
-      width: 55,
-      height: 55,
-      margin: EdgeInsets.all(10),
+      width: 65,
+      height: 65,
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
         //컬러 인스타마냥 섞는?
         gradient: LinearGradient(
@@ -45,7 +49,21 @@ class StoryWidget extends StatelessWidget{
         ),
         shape: BoxShape.circle
       ),
-      child: Container(),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(65),
+          child: SizedBox(
+            width: 65,
+            height: 65,
+            child: Image(image: NetworkImage(user.profile!),)
+          ),
+        ),
+      ),
     );
   }
 
