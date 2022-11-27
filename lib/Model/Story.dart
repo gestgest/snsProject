@@ -21,7 +21,7 @@ class Story{
   Map<String, dynamic> toMap(){
     return {
       'image' : image,
-      'user' : user,
+      'user' : user!.toMap(),
       'time' : time,
     };
   }
