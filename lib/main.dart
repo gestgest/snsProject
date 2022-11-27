@@ -4,11 +4,17 @@ import 'package:snsproject/Screen/UploadPosterScreen.dart';
 import 'Screen/DebugWidget.dart';
 import 'Screen/HomeScreen.dart';
 import 'Screen/MyPageScreen.dart';
+import 'Screen/ProfileScreen.dart';
 import 'package:provider/provider.dart';
 import 'Service/PosterService.dart';
 import 'Service/StoryService.dart';
 import 'Service/UserService.dart';
 import 'Widget/BottomBar.dart';
+import 'package:flutterfire_ui/auth.dart';
+import 'package:flutterfire_ui/i10n.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'Screen/labelOverrides.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,21 +37,69 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Sns Project',
+      localizationsDelegates: [
+        FlutterFireUILocalizations.withDefaultOverrides(const LabelOverrides()),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        FlutterFireUILocalizations.delegate,
+      ],
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.cyan,
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            padding: MaterialStateProperty.all<EdgeInsets>(
+              EdgeInsets.all(24),
+            ),
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.cyan),
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+          ),
+        ),
       ),
-      home: const HomePage(),
+      debugShowCheckedModeBanner: false,
+      home: MyPage(),
+    );
+  }
+}
+
+class MyPage extends StatelessWidget {
+  const MyPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Authentication(),
+    );
+  }
+}
+
+class Authentication extends StatelessWidget {
+  const Authentication({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return SignInScreen(
+            headerBuilder: (context, constraints, double) {
+              return Padding(
+                padding: EdgeInsets.all(5),
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: CircleAvatar(backgroundImage: AssetImage('res/img/doggy.gif'), radius: 100.0,),
+                ),
+              );
+            },
+            providerConfigs: [EmailProviderConfiguration()],
+          );
+        }
+        return HomeScreen();
+      },
     );
   }
 }
