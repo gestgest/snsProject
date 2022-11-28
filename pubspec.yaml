@@ -51,6 +51,9 @@ dependencies:
   firebase_storage:
   cloud_firestore:
   provider:
+  get:
+  path_icon:
+  photo_manager:
 
 dev_dependencies:
   flutter_test:
