@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:snsproject/Service/UserService.dart';
 import 'package:snsproject/main.dart';
 
-import '../Model/User.dart';
+import '../Model/MyUser.dart';
 class SignUpScreen extends StatefulWidget {
 
   const SignUpScreen({Key? key}) : super(key: key);
@@ -63,7 +63,8 @@ class _SignUpState extends State<SignUpScreen> {
                         ));
 
                       else{
-                        MyUser user = MyUser(name : nameController.text, uid : uid, profile: "https://firebasestorage.googleapis.com/v0/b/snsprojectfb.appspot.com/o/user%2FugpwLMrLZGF9hcCcpYcE%2FGithub.png?alt=media&token=0c302e9f-2a70-4ffb-bbb0-356c1d5038ad");
+                        List<String> friends = [];
+                        MyUser user = MyUser(name : nameController.text, uid : uid,friends : friends, profile: "https://firebasestorage.googleapis.com/v0/b/snsprojectfb.appspot.com/o/user%2FugpwLMrLZGF9hcCcpYcE%2FGithub.png?alt=media&token=0c302e9f-2a70-4ffb-bbb0-356c1d5038ad");
                         userService.create(user);
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text("안녕하세요 ${nameController.text}님!"),

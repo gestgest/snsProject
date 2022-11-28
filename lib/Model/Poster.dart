@@ -1,4 +1,4 @@
-import 'User.dart';
+import 'MyUser.dart';
 
 class Poster{
   final String? title;
