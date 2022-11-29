@@ -114,9 +114,6 @@ class Authentication extends StatelessWidget {
             ],
           );
         }
-        final dd = snapshot.data;
-        User user = dd as User;
-        print("잉    " + user.uid);
         return SignUpScreen();
       },
     );

@@ -12,19 +12,21 @@ class FirestorageRepository {
       )async{
     File file = File(filePath);
     try{
+      print(filePath);
       //데이터베이스 타입/고유id/파일이름
-      Reference ref = await storage.ref('image/$fileName');
+      Reference ref = await storage.ref('${fileName}');
 
       await ref.putFile(file);
 
       final s = await getImageUrl(ref);
       //ref 매개변수만 같다면 가능하다.
-      print(s);
+      print("주소 오류" + s);
 
       return s;
       //ref가 저장되는 storage, file은 그 sdk 파일경로
     } on FirebaseException catch (e){
-      print("이미지 주소 -> ㄹ서버 오류");
+
+      print("이미지 주소 -> ㄹ서버 오류" + e.message!);
     }
 
   }

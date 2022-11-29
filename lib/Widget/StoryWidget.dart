@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Model/User.dart';
+import '../Model/MyUser.dart';
 
 enum StoryType{
   NEW,

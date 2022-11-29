@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../Model/User.dart';
+import '../Model/MyUser.dart';
 
 
 class UserService extends ChangeNotifier {
@@ -18,14 +18,19 @@ class UserService extends ChangeNotifier {
   Future<MyUser> readUser(String name) async {
     //poster 목록 가져오기
     final data = await UserCollection.where('name', isEqualTo: name).get();
+    //하는 과정에 오류
     MyUser user = MyUser.fromJson(data.docs.first.data());
     return user;
     //무조건 then쓰지말고 await
     throw UnimplementedError(); // return 값 미구현 에러
   }
+
   Future<MyUser> readUid(String uid) async {
     //poster 목록 가져오기
     final data = await UserCollection.where('uid', isEqualTo: uid).get();
+    print(uid);
+
+    //배열 일일이 넣어야 할듯
     MyUser user = MyUser.fromJson(data.docs.first.data());
     return user;
     //무조건 then쓰지말고 await
@@ -48,13 +53,22 @@ class UserService extends ChangeNotifier {
   }
   */
   //맵 버전
-  void create(MyUser user) async
+  Future<String> create(MyUser user) async
   {
-    await UserCollection.add(user.toMap());
+    var data = await UserCollection.add(user.toMap());
+    return data.id;
+  }
+  void updateId(MyUser user, String docId) async {
+    // place isDone 업데이트
+    UserCollection.doc(docId).update(user.toMap());
+    // place isDone 업데이트
+    notifyListeners(); // 화면 갱신
   }
 
-  void update(String docId, bool isDone) async {
+  void update(MyUser user) async {
     // place isDone 업데이트
+    await deleteUid(user.uid!);
+    create(user);
   }
 
   void searchName(String uid)
@@ -65,9 +79,16 @@ class UserService extends ChangeNotifier {
 
   void delete(String id) async {
     //final project= placeCollection.where("uid", isEqualTo: uid);
-    print(id);
     UserCollection.doc(id).delete();
     notifyListeners(); // 화면 갱신
+  }
+  Future<void> deleteUid(String uid) async {
+    //final project= placeCollection.where("uid", isEqualTo: uid);
+    final data = await UserCollection.where('uid', isEqualTo: uid).get();
 
+    if(data.size != 0)
+      data.docs[0].reference.delete();
+    //UserCollection.doc(id).delete();
+    notifyListeners(); // 화면 갱신
   }
 }

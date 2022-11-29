@@ -1,5 +1,5 @@
 
-import 'User.dart';
+import 'MyUser.dart';
 
 class Story{
   final String? image;

@@ -8,7 +8,7 @@ import 'package:snsproject/Widget/StoryWidget.dart';
 import 'package:snsproject/Widget/postWidget.dart';
 
 import '../Model/Poster.dart';
-import '../Model/User.dart';
+import '../Model/MyUser.dart';
 import '../Service/StoryService.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool showFriend = false;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<PosterService>(builder: (context, posterService, child) {
@@ -26,7 +28,27 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Container(
               child: Column(
             children: [
-              Text("title"),
+              Container(
+                alignment: Alignment.centerRight,
+                child: showFriend
+                    ? ElevatedButton(
+                        onPressed: () {
+                          showFriend = false;
+                          setState(() {});
+                        },
+                        child: Icon(Icons.people_alt),
+                      )
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.grey,
+                        ),
+                        onPressed: () {
+                          showFriend = true;
+                          setState(() {});
+                        },
+                        child: Icon(Icons.people_alt),
+                      ),
+              ),
             ],
           )),
         ),
@@ -36,8 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollDirection: Axis.vertical,
               physics: ScrollPhysics(),
               child: Column(
+                crossAxisAlignment : CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(child: _storyList(), width: 400, height: 100,),
+                  //Container(child: _storyList(),width: 400,height: 100,),
                   FutureBuilder(
                       future: posterService.read(), //Future <T>
                       builder: (BuildContext context,
@@ -53,8 +77,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                 //snapshot 데베 for문
                                 itemBuilder: (BuildContext context, int index) {
+                                  //uid
                                   return PostWidget(
-                                      data: snapshot.data!.docs[index]);
+                                      data: snapshot.data!.docs[index],
+                                      showFriend: showFriend
+
+                                  );
                                   //return placeList(snapshot.data!);
                                 }),
                           );
@@ -98,11 +126,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     String name = data['user']['name'];
                     String profile = data['user']['profile'];
                     String uid = data['user']['uid'];
-                    final user = MyUser(name : name, profile: profile, uid: uid);
+                    final user = MyUser(name: name, profile: profile, uid: uid);
                     return StoryWidget(
                       type: StoryType.NEW,
                       image: data['image'],
-                      user : user,
+                      user: user,
                     );
                     //return placeList(snapshot.data!);
                   });

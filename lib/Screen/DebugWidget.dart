@@ -9,7 +9,7 @@ import 'package:snsproject/Widget/postWidget.dart';
 
 import '../Model/Poster.dart';
 import '../Model/Story.dart';
-import '../Model/User.dart';
+import '../Model/MyUser.dart';
 
 class DebugWidget extends StatefulWidget {
   const DebugWidget({Key? key}) : super(key: key);
@@ -19,6 +19,7 @@ class DebugWidget extends StatefulWidget {
 class _DebugWidgetState extends State<DebugWidget> {
   @override
   Widget build(BuildContext context) {
+
     return Consumer3<PosterService,UserService, StoryService>(builder: (context, posterService,userService,storyService, child) {
       return Scaffold(
         appBar: AppBar(
@@ -35,13 +36,14 @@ class _DebugWidgetState extends State<DebugWidget> {
             child: Column(
               children: [
                 FutureBuilder(
-                    future: userService.readUser("gest"), //Future <T>
+                    future: userService.readUser("curry"), //Future <T>
                     builder: (BuildContext context,
                         AsyncSnapshot<MyUser> snapshot) {
-                      List<NetworkImage> list = [];
+
                       if (snapshot.connectionState == ConnectionState.done &&
                           snapshot.hasData) {
-                        String ss = "https://firebasestorage.googleapis.com/v0/b/snsprojectfb.appspot.com/o/poster%2F8ovh47lzzTViQspJde0Q%2Fthumbnail%2Fimage.jpg?alt=media&token=6441819d-2a13-4832-98e9-fb83fbff7ab0";
+                        String ss = "https://firebasestorage.googleapis.com/v0/b/snsprojectfb.appspot.com/o/user%2FugpwLMrLZGF9hcCcpYcE%2FGithub.png?alt=media&token=0c302e9f-2a70-4ffb-bbb0-356c1d5038ad";
+
 
                         return Column(
                             children : [
@@ -54,17 +56,17 @@ class _DebugWidgetState extends State<DebugWidget> {
                                 },
                               ),
                               ElevatedButton(
-                                child: Text("vv"),
+                                child: Text("add user"),
                                 onPressed: () {
-
-                                  userService.create( MyUser(name : "ppap", uid: "tetet", profile: ss));
+                                  List<String> ssf = ["aVLoDXQiKidZJXszmy1VcFdVRHa2", "tetet"];
+                                  userService.create( MyUser(name : "ppap", uid: "tetet", profile: ss, friends: ssf));
                                 },
                               ),
                               ElevatedButton(
-                                child: Text("cc"),
+                                child: Text("친구가 있니"),
                                 onPressed: () {
-                                  print(snapshot.data!.name);
-                                  posterService.deleteName("레고고고");
+                                  print(snapshot.data!.friends![0]);
+                                  //posterService.deleteName("레고고고");
                                 },
                               ),
                               ElevatedButton(
