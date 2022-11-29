@@ -39,14 +39,20 @@ class PosterService extends ChangeNotifier {
     notifyListeners(); // 화면 갱신
 
     */
-  void createDebug(Poster poster) async {
+  Future<String> createGetID(Poster poster) async {
     //, String keyword, double starScore, int busy
     // place 만들기
-    await PostCollection.add(poster.toMap());
+    var id = await PostCollection.add(poster.toMap());
+
     notifyListeners(); // 화면 갱신
+        return id.id;
+
   }
-  void update(String docId, bool isDone) async {
+  void updateId(Poster poster, String docId) async {
+    PostCollection.doc(docId).update(poster.toMap());
     // place isDone 업데이트
+    notifyListeners(); // 화면 갱신
+
   }
   //
   Future<void> debug(String uid) async
