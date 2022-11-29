@@ -53,9 +53,16 @@ class UserService extends ChangeNotifier {
   }
   */
   //맵 버전
-  void create(MyUser user) async
+  Future<String> create(MyUser user) async
   {
-    await UserCollection.add(user.toMap());
+    var data = await UserCollection.add(user.toMap());
+    return data.id;
+  }
+  void updateId(MyUser user, String docId) async {
+    // place isDone 업데이트
+    UserCollection.doc(docId).update(user.toMap());
+    // place isDone 업데이트
+    notifyListeners(); // 화면 갱신
   }
 
   void update(MyUser user) async {

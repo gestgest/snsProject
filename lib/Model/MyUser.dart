@@ -2,7 +2,7 @@
 class MyUser{
   final String? name;
   final String? uid;
-  final String? profile;
+  String? profile;
   List<String>? friends; //uid
   MyUser({
     this.name,

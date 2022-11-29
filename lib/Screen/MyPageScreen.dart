@@ -53,9 +53,8 @@ class _MyPageState extends State<MyPageScreen> {
                         backgroundImage: NetworkImage(snapshot.data!.profile!),
                       ),
                       SizedBox(height: 20),
-                      Text(snapshot.data!.name!),
-                      SizedBox(height: 20),
-
+                      Text(snapshot.data!.name!, style: TextStyle(fontFamily: "DJ", fontSize: 20),),
+                      SizedBox(height: 12),
                       SignOutButton(),
                     ],
                   )

@@ -122,15 +122,12 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
     XFile? pickedFile = _pickedFile;
     if (pickedFile != null || id != null) {
       //url 주소값 반환
-      loadImgUrl = await storage.uploadFile(pickedFile!.path, "poster/"+id+"thumnail.png");
+      loadImgUrl = await storage.uploadFile(pickedFile!.path, "poster/"+id+"/thumnail.png");
       // FireStorage에 이미지파일 업로드
     }
-
   }
 
   void _showAlert(PosterService ps, String uid) {
-
-
     // 화면 추가 선택 다이어로그
     showCupertinoDialog(
         context: context,
@@ -155,6 +152,8 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
                           String id = await ps.createGetID(poster);
                           //나중에 address 반환값 받는거 추가
 
+                          //★
+                          Navigator.pop(context);
                           sendImageToFireStorage(id);
                           loadCreate(ps, poster, id);
 
