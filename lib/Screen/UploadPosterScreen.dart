@@ -83,7 +83,6 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
                                     BorderRadius.all(Radius.circular(20)),
                                 borderSide: BorderSide(color: Colors.white)),
                             filled: true,
-                            fillColor: Color(0xFF957DAD),
                             hintText: "장소 이름을 입력해주세요",
                           ),
                         ),
@@ -103,7 +102,6 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF957DAD),
                             textStyle:
                                 TextStyle(fontFamily: "DJ", fontSize: 15)),
                         child: const Text('create'),
@@ -329,7 +327,6 @@ class _UploadPosterScreenState extends State<UploadPosterScreen> {
                     _uploadImage();
                   },
                   style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF957DAD),
                       textStyle: TextStyle(fontFamily: "DJ", fontSize: 15)),
                   child: const Text('Upload'),
                 ),

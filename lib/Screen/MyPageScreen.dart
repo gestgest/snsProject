@@ -54,6 +54,8 @@ class _MyPageState extends State<MyPageScreen> {
                       ),
                       SizedBox(height: 20),
                       Text(snapshot.data!.name!),
+                      SizedBox(height: 20),
+
                       SignOutButton(),
                     ],
                   )

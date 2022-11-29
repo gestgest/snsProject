@@ -61,11 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment : CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    child: _storyList(),
-                    width: 400,
-                    height: 100,
-                  ),
+                  //Container(child: _storyList(),width: 400,height: 100,),
                   FutureBuilder(
                       future: posterService.read(), //Future <T>
                       builder: (BuildContext context,
