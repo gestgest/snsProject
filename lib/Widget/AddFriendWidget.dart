@@ -34,64 +34,94 @@ class _AddFriendState extends State<AddFriendWidget> {
                 isFriend = true;
               }
             }
-            print("실행");
-            return isFriend ? Row(
-              children: [
-                SizedBox(
-                  width: 20,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(65),
-                  child: SizedBox(
-                      width: 65,
-                      height: 65,
-                      child: Image(
-                        image: NetworkImage(widget.user.profile!),
-                      )),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.grey,
-                    ),
-                    onPressed: () {
-                      //
-                      print("삭제" + widget.user.uid!);
-                      snapshot.data!.friends!.remove(widget.user.uid);
-                      userService.update(snapshot.data!);
-                    },
-                    child: Text("친구 삭제"))
-              ],
-            ): Row(
-              children: [
-                SizedBox(
-                  width: 20,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(65),
-                  child: SizedBox(
-                      width: 65,
-                      height: 65,
-                      child: Image(
-                        image: NetworkImage(widget.user.profile!),
-                      )),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    //친구 추가
-                    print("추가" + widget.user.uid!);
-                    snapshot.data!.friends!.add(widget.user.uid!);
-                    userService.update(snapshot.data!);
-                  },
-                  child: Text("친구 추가"),
-                ),
-              ],
-            );
+            return isFriend
+                ? Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(55),
+                              child: SizedBox(
+                                  width: 55,
+                                  height: 55,
+                                  child: Image(
+                                    image: NetworkImage(widget.user.profile!),
+                                  )),
+                            ),
+                            Text(
+                              widget.user.name!,
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.grey,
+                            ),
+                            onPressed: () {
+                              //
+                              print("삭제" + widget.user.uid!);
+                              snapshot.data!.friends!.remove(widget.user.uid);
+                              userService.update(snapshot.data!);
+                            },
+                            child: Text("친구 삭제")),
+                      )
+                    ],
+                  )
+                : Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(55),
+                              child: SizedBox(
+                                  width: 55,
+                                  height: 55,
+                                  child: Image(
+                                    image: NetworkImage(widget.user.profile!),
+                                  )),
+                            ),
+                            Text(
+                              widget.user.name!,
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          //친구 추가
+                          print("추가" + widget.user.uid!);
+                          snapshot.data!.friends!.add(widget.user.uid!);
+                          userService.update(snapshot.data!);
+                        },
+                        child: Text("친구 추가"),
+                      ),
+                    ],
+                  );
           });
     });
   }

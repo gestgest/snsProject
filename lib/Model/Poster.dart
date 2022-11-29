@@ -3,7 +3,7 @@ import 'MyUser.dart';
 class Poster{
   final String? title;
   final String? uid;
-  final String? thumbnail;
+  String? thumbnail;
   MyUser? user;
   Poster({
     this.title,
